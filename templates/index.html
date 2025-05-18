@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="animate__animated animate__fadeInDown mb-4">Solve a Math Problem</h2>
+
+<form method="POST" id="solverForm">
+  <div class="mb-3">
+    <label for="problem_type" class="form-label">Choose problem type:</label>
+    <select id="problem_type" name="problem_type" class="form-select" required>
+      <option value="" disabled {% if not problem_type %}selected{% endif %}>Select one</option>
+      <option value="prime" {% if problem_type == 'prime' %}selected{% endif %}>Prime Check</option>
+      <option value="quadratic" {% if problem_type == 'quadratic' %}selected{% endif %}>Quadratic Equation</option>
+      <option value="factorial" {% if problem_type == 'factorial' %}selected{% endif %}>Factorial</option>
+    </select>
+  </div>
+
+  <div id="primeInput" class="problem-input d-none mb-3">
+    <label for="prime_number" class="form-label">Enter a number:</label>
+    <input type="number" class="form-control" name="prime_number" min="0" />
+  </div>
+
+  <div id="quadraticInput" class="problem-input d-none mb-3">
+    <label class="form-label">Enter coefficients:</label>
+    <div class="row g-2">
+      <div class="col">
+        <input type="number" step="any" class="form-control" name="a" placeholder="a" />
+      </div>
+      <div class="col">
+        <input type="number" step="any" class="form-control" name="b" placeholder="b" />
+      </div>
+      <div class="col">
+        <input type="number" step="any" class="form-control" name="c" placeholder="c" />
+      </div>
+    </div>
+  </div>
+
+  <div id="factorialInput" class="problem-input d-none mb-3">
+    <label for="factorial_number" class="form-label">Enter a number:</label>
+    <input type="number" class="form-control" name="factorial_number" min="0" />
+  </div>
+
+  <button type="submit" class="btn btn-primary mt-3">Solve</button>
+</form>
+
+{% if result %}
+  <div class="mt-4 p-3 border rounded bg-light">
+    <h4>Result:</h4>
+    <p>{{ result }}</p>
+
+    <h5>Explanation:</h5>
+    <p>{{ explanation }}</p>
+  </div>
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const problemTypeSelect = document.getElementById('problem_type');
+    const primeInput = document.getElementById('primeInput');
+    const quadraticInput = document.getElementById('quadraticInput');
+    const factorialInput = document.getElementById('factorialInput');
+
+    function toggleInputs() {
+      const val = problemTypeSelect.value;
+      primeInput.classList.add('d-none');
+      quadraticInput.classList.add('d-none');
+      factorialInput.classList.add('d-none');
+
+      if (val === 'prime') primeInput.classList.remove('d-none');
+      else if (val === 'quadratic') quadraticInput.classList.remove('d-none');
+      else if (val === 'factorial') factorialInput.classList.remove('d-none');
+    }
+
+    problemTypeSelect.addEventListener('change', toggleInputs);
+    toggleInputs();
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,86 @@
+.problem-input {
+    margin-top: 15px;
+  }
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    min-height: 100vh;
+    color: #333;
+  }
+  
+  /* Navbar */
+  .navbar {
+    background: linear-gradient(to right, #667eea, #764ba2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .navbar-brand, .nav-link {
+    color: #fff !important;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+  
+  .nav-link:hover {
+    color: #ffd369 !important;
+  }
+  
+  /* Container spacing */
+  .container {
+    padding: 30px 15px;
+  }
+  
+  /* Card-style form */
+  form {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Headings */
+  h2 {
+    color: #4b4b4b;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Buttons */
+  .btn-primary {
+    background-color: #ff6f61;
+    border-color: #ff6f61;
+    font-weight: bold;
+    border-radius: 12px;
+    transition: background 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #ff3e3e;
+    border-color: #ff3e3e;
+  }
+  
+  /* Form Inputs */
+  .form-control, .form-select {
+    border-radius: 10px;
+    box-shadow: none;
+    transition: border-color 0.3s;
+  }
+  
+  .form-control:focus, .form-select:focus {
+    border-color: #764ba2;
+    box-shadow: 0 0 0 0.2rem rgba(118, 75, 162, 0.25);
+  }
+  
+  /* Alerts */
+  .alert {
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  
+  /* Input Sections */
+  .problem-input {
+    margin-top: 20px;
+  }
+  
