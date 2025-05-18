@@ -1,8 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
-
-app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'  # Change to a strong secret key
-
+import streamlit as st
 
 # Solver classes
 class PrimeChecker:
@@ -40,7 +36,7 @@ class QuadraticSolver:
             return f"Two real roots: {root1} and {root2}"
 
     def explain(self):
-        return "Solving quadratic equation ax² + bx + c = 0 using discriminant method."
+        return "Solving quadratic equation ax² + bx + c = 0 using the discriminant method."
 
 
 class FactorialCalculator:
@@ -57,49 +53,46 @@ class FactorialCalculator:
         return "Factorial of n is the product of all positive integers up to n."
 
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    result = None
-    explanation = None
-    problem_type = None
+# Streamlit UI
+st.set_page_config(page_title="Math Hub", layout="centered")
+st.title("🧮 Math Hub Solver")
 
-    if request.method == 'POST':
-        problem_type = request.form.get('problem_type')
+problem_type = st.selectbox("Choose a problem type:", ["", "Prime Check", "Quadratic Equation", "Factorial"])
 
-        try:
-            if problem_type == 'prime':
-                n = int(request.form.get('prime_number'))
-                solver = PrimeChecker(n)
-            elif problem_type == 'quadratic':
-                a = float(request.form.get('a'))
-                b = float(request.form.get('b'))
-                c = float(request.form.get('c'))
-                solver = QuadraticSolver(a, b, c)
-            elif problem_type == 'factorial':
-                n = int(request.form.get('factorial_number'))
-                if n < 0:
-                    flash("Factorial is not defined for negative numbers.", "danger")
-                    return redirect(url_for('index'))
-                solver = FactorialCalculator(n)
-            else:
-                flash("Please select a valid problem type.", "danger")
-                return redirect(url_for('index'))
+result = None
+explanation = None
 
-            result = solver.solve()
-            explanation = solver.explain()
+if problem_type == "Prime Check":
+    n = st.number_input("Enter a number to check:", step=1, format="%d")
+    if st.button("Check Prime"):
+        solver = PrimeChecker(n)
+        result = solver.solve()
+        explanation = solver.explain()
 
-        except Exception:
-            flash("Invalid input. Please check your values.", "danger")
-            return redirect(url_for('index'))
+elif problem_type == "Quadratic Equation":
+    a = st.number_input("Enter coefficient a:")
+    b = st.number_input("Enter coefficient b:")
+    c = st.number_input("Enter coefficient c:")
+    if st.button("Solve Quadratic"):
+        solver = QuadraticSolver(a, b, c)
+        result = solver.solve()
+        explanation = solver.explain()
 
-    return render_template('index.html', result=result, explanation=explanation, problem_type=problem_type)
+elif problem_type == "Factorial":
+    n = st.number_input("Enter a non-negative integer:", step=1, format="%d")
+    if n < 0:
+        st.error("Factorial is not defined for negative numbers.")
+    elif st.button("Calculate Factorial"):
+        solver = FactorialCalculator(n)
+        result = solver.solve()
+        explanation = solver.explain()
 
+# Display results
+if result:
+    st.success(result)
+if explanation:
+    st.info(explanation)
 
-@app.route('/history')
-def history():
-    # Placeholder page for History
-    return render_template('history.html')
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+# Optional: placeholder for future "History" section
+with st.expander("🕒 View History (coming soon)"):
+    st.write("This section will show past calculations.")
